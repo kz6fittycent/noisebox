@@ -1,5 +1,5 @@
 name: noisebox
-adopt-info: noisebox
+version: git
 summary: Background noise generator for concentration in your terminal.
 description: |
   Background noise generator for concentration in your terminal.
@@ -39,10 +39,6 @@ parts:
     source: https://github.com/JaDogg/noisebox
     source-type: git
     plugin: python
-    
-    override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
 
     build-packages:
       - python3
