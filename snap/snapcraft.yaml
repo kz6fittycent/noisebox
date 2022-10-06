@@ -1,0 +1,59 @@
+name: noisebox
+adopt-info: noisebox
+summary: Background noise generator for concentration in your terminal.
+description: |
+  Background noise generator for concentration in your terminal.
+
+license: GPL-3.0
+
+base: core20
+grade: stable
+confinement: strict
+compression: lzo
+
+layout:
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+  /etc/alsa:
+    bind: $SNAP/etc/alsa
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  
+apps:
+  noisebox:
+    command: bin/noisebox
+    environment:
+      LC_ALL: C.UTF-8
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
+      GI_TYPELIB_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
+      
+    plugs:
+      - home
+      - audio-playback
+      - alsa
+      - pulseaudio
+      
+parts:
+  noisebox:
+    source: https://github.com/JaDogg/noisebox
+    source-type: git
+    plugin: python
+    
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
+
+    build-packages:
+      - python3
+      - python3-gi
+      - python3-pip
+      - python3-pygame    
+      
+    stage-packages:
+      - python3
+      - python3-gi
+      - python3-pygame
+      - python3-gst-1.0
+      - libpulse0
+      - libasound2-plugins
