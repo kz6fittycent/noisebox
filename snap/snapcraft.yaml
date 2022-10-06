@@ -54,3 +54,4 @@ parts:
       - libpulse0
       - libasound2-plugins
       - freeglut3
+      - libglu1-mesa
