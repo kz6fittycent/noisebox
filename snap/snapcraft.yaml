@@ -21,7 +21,7 @@ layout:
   
 apps:
   noisebox:
-    command: python3 noisebox.py
+    command: usr/bin/python3 noisebox.py
     environment:
       LC_ALL: C.UTF-8
       PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
